@@ -21,9 +21,8 @@ func main() {
 
 		command = strings.TrimSpace(command)
 
-		// fmt.Print(command)
 		if command == "exit" {
-			os.Exit(1)
+			break
 		}
 	
 		
