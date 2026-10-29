@@ -18,7 +18,7 @@ func main() {
 		}
 	
 		command = strings.TrimSpace(command)
-		fmt.Println(command, ": command not found")
+		fmt.Print(command, ": command not found\n")
 	}
 }
 
