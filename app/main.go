@@ -10,7 +10,7 @@ func main() {
 
 	fmt.Print("$ ")
 	fmt.Scanln(&name)
-	fmt.Print("{", name, "} : ", "command not found")
+	fmt.Print(name, ": ", "command not found")
 
 }
 
