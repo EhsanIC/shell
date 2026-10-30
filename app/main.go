@@ -44,26 +44,26 @@ func runCommand(command string , arguments []string) {
 
 	if command == "type" {
 
-		found := false
+		// found := false
 
-		for i := range len(commandList) {
+		// for i := range len(commandList) {
 
-			if arguments[0] == commandList[i] {
-				found = true
-				fmt.Println( arguments[0] , "is a shell builtin")
-			}
+		// 	if arguments[0] == commandList[i] {
+		// 		found = true
+		// 		fmt.Println( arguments[0] , "is a shell builtin")
+		// 	}
 
-		}
-
-		if !found {
-			fmt.Print(arguments[0], ": not found\n")
-		}
-
-		// _ , args := validateCommand(command)
-		// fmt.Print(args[0])
-		// if arguments == nil {
-		// 	fmt.Print("test is fine")
 		// }
+
+		// if !found {
+		// 	fmt.Print(arguments[0], ": not found\n")
+		// }
+
+		_ , args := validateCommand(command)
+		fmt.Print(args[0])
+		if arguments == nil {
+			fmt.Print("test is fine")
+		}
 
 		// fmt.Println( arguments[0] , "is a shell builtin")
 	}
@@ -121,3 +121,6 @@ func validateCommand(input string) (string , []string) {
 // type is a shell builtin
 // $ type invalid_command
 // invalid_command: not found
+
+
+//exec.LookPath("ls")
