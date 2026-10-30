@@ -27,6 +27,7 @@ func main() {
 		}
 
 		validCommand , arguments := validateCommand(command)
+		
 		runCommand(validCommand , arguments)
 	}
 }
