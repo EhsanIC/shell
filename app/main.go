@@ -51,12 +51,17 @@ func runCommand(command string, arguments []string) {
 			} else {
 				path, err := locateExecutableFiles(arguments[0])
 
-				fmt.Println(arguments[0], "is", path)
-
-				if err != nil {
-					// fmt.Print(err)
+				if err == nil {
+					fmt.Println(arguments[0], "is", path)
+				} else {
 					fmt.Print(arguments[0], ": not found\n")
 				}
+				
+
+				// if err != nil {
+				// 	// fmt.Print(err)
+					
+				// }
 
 			}
 
