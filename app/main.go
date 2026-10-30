@@ -51,7 +51,7 @@ func runCommand(command string, arguments []string) {
 			} else {
 				path, err := locateExecutableFiles(arguments[0])
 
-				fmt.Println(arguments[0], "is", path)
+				// fmt.Println(arguments[0], "is", path)
 
 				if err != nil {
 					// fmt.Print(err)
