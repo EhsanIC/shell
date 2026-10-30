@@ -7,7 +7,7 @@ import (
 	"strings"
 )
 
-var commandList = []string{"echo" , "test" , "type"	}
+var commandList = []string{"echo" , "test" , "type" , "exit"}
 
 func main() {
 
