@@ -33,7 +33,12 @@ func main() {
 
 func runCommand(command string , arguments []string) {
 
-	fmt.Print("the command -> " , command , "ARGS -> " , arguments)
+	if command == "echo" {
+		fmt.Println(strings.Join(arguments, " "))
+		// fmt.Print(arguments)
+	}
+
+	// fmt.Print("the command -> " , command , "ARGS -> " , arguments)
 }
 
 
