@@ -49,9 +49,9 @@ func runCommand(command string, arguments []string) {
 			if checkCommandType(arguments[0]) {
 				fmt.Println(arguments[0], "is a shell builtin")
 			} else {
-				_, err := locateExecutableFiles(arguments[0])
+				path, err := locateExecutableFiles(arguments[0])
 
-				// fmt.Println(arguments[0], "is", path)
+				fmt.Println(arguments[0], "is", path)
 
 				if err != nil {
 					// fmt.Print(err)
