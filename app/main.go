@@ -7,6 +7,8 @@ import (
 	"strings"
 )
 
+var commandList = []string{"echo" , "test" , "type"	}
+
 func main() {
 
 	reader := bufio.NewReader(os.Stdin)
@@ -27,16 +29,43 @@ func main() {
 		}
 
 		validCommand , arguments := validateCommand(command)
-		
+
 		runCommand(validCommand , arguments)
 	}
 }
 
+
+// execute the commands
 func runCommand(command string , arguments []string) {
 
 	if command == "echo" {
 		fmt.Println(strings.Join(arguments, " "))
-		// fmt.Print(arguments)
+	}
+
+	if command == "type" {
+
+		found := false
+
+		for i := range len(commandList) {
+
+			if arguments[0] == commandList[i] {
+				found = true
+				fmt.Println( arguments[0] , "is a shell builtin")
+			}
+
+		}
+
+		if !found {
+			fmt.Print(arguments[0], ": command not found\n")
+		}
+
+		// _ , args := validateCommand(command)
+		// fmt.Print(args[0])
+		// if arguments == nil {
+		// 	fmt.Print("test is fine")
+		// }
+
+		// fmt.Println( arguments[0] , "is a shell builtin")
 	}
 
 	// fmt.Print("the command -> " , command , "ARGS -> " , arguments)
@@ -55,10 +84,8 @@ func runCommand(command string , arguments []string) {
 
 
 
-
+// check if the command is valid
 func validateCommand(input string) (string , []string) {
-
-	var commandList = []string{"echo"}
 
 	word := strings.Fields(input)
 	command := word[0]
@@ -69,15 +96,14 @@ func validateCommand(input string) (string , []string) {
 	for i := range len(commandList) {
 
 		if command == commandList[i] {
-
 			return command, arguments
-
-		} else {
-			fmt.Print(command, ": command not found\n")
 		}
+
 	}
 
+	fmt.Print(command, ": command not found\n")
 	return "" , nil
+
 }
 
 //checking the command base of the first word
@@ -85,3 +111,13 @@ func validateCommand(input string) (string , []string) {
 
 //TODO check for empty string
 // create a list for valid commands
+
+
+// $ type echo
+// echo is a shell builtin
+// $ type exit
+// exit is a shell builtin
+// $ type type
+// type is a shell builtin
+// $ type invalid_command
+// invalid_command: not found
