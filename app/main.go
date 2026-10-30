@@ -56,7 +56,7 @@ func runCommand(command string , arguments []string) {
 		}
 
 		if !found {
-			fmt.Print(arguments[0], ": command not found\n")
+			fmt.Print(arguments[0], ": not found\n")
 		}
 
 		// _ , args := validateCommand(command)
