@@ -4,10 +4,11 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"os/exec"
 	"strings"
 )
 
-var commandList = []string{"echo" , "test" , "type" , "exit"}
+var commandList = []string{"echo", "test", "type", "exit"}
 
 func main() {
 
@@ -28,15 +29,14 @@ func main() {
 			break
 		}
 
-		validCommand , arguments := validateCommand(command)
+		validCommand, arguments := validateCommand(command)
 
-		runCommand(validCommand , arguments)
+		runCommand(validCommand, arguments)
 	}
 }
 
-
 // execute the commands
-func runCommand(command string , arguments []string) {
+func runCommand(command string, arguments []string) {
 
 	if command == "echo" {
 		fmt.Println(strings.Join(arguments, " "))
@@ -44,53 +44,51 @@ func runCommand(command string , arguments []string) {
 
 	if command == "type" {
 
-		// found := false
+		if validation(arguments[0]) {
 
-		// for i := range len(commandList) {
+			if checkCommandType(arguments[0]) {
+				fmt.Println(arguments[0], "is a shell builtin")
+			} else {
+				path, err := locateExecutableFiles(arguments[0])
 
-		// 	if arguments[0] == commandList[i] {
-		// 		found = true
-		// 		fmt.Println( arguments[0] , "is a shell builtin")
-		// 	}
+				fmt.Println(arguments[0], "is", path)
 
-		// }
+				if err != nil {
+					// fmt.Print(err)
+					fmt.Print(arguments[0], ": not found\n")
+				}
 
-		// if !found {
-		// 	fmt.Print(arguments[0], ": not found\n")
-		// }
+			}
 
-		_ , args := validateCommand(command)
-		fmt.Print(args[0])
-		if arguments == nil {
-			fmt.Print("test is fine")
+			// exec.LookPath("pwd")
+			// fmt.Println(arguments[0], "is a shell builtin")
+
+			// path, err := locateExecutableFiles(arguments[0])
+
+			// fmt.Print(arguments[0], " is ", path)
+
+			// if err != nil {
+			// 	fmt.Print(err)
+			// 	// fmt.Print(arguments[0], ": not found\n")
+			// }
+			// fmt.Print(locateExecutableFiles(arguments[0]))
+		} else {
+
+			fmt.Print(arguments[0], ": not found\n")
+
 		}
 
-		// fmt.Println( arguments[0] , "is a shell builtin")
 	}
 
 	// fmt.Print("the command -> " , command , "ARGS -> " , arguments)
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 // check if the command is valid
-func validateCommand(input string) (string , []string) {
+func validateCommand(input string) (string, []string) {
 
 	word := strings.Fields(input)
 	command := word[0]
 	arguments := word[1:]
-
 
 	// check if the command exists
 	for i := range len(commandList) {
@@ -102,16 +100,65 @@ func validateCommand(input string) (string , []string) {
 	}
 
 	fmt.Print(command, ": command not found\n")
-	return "" , nil
+	return "", nil
 
 }
+
+func validation(input string) bool {
+	found := false
+	for i := range len(commandList) {
+		if input == commandList[i] {
+			found = true
+		}
+	}
+
+	path, err := locateExecutableFiles(input)
+	if err != nil {
+		found = true
+	}
+
+	if path != "" {
+		found = true
+	}
+
+	return found
+}
+
+// checking the command type , work only after the validation !
+func checkCommandType(target string) bool {
+	// fmt.Print(target)
+	found := false
+	for i := range len(commandList) {
+		// fmt.Print(target)
+		if target == commandList[i] {
+			// fmt.Print(target)
+			found = true
+		}
+	}
+
+	return found
+}
+
+func locateExecutableFiles(target string) (string, error) {
+	path, err := exec.LookPath(target)
+	// fmt.Print("PATH --> ", path, "ERR --> ", err)
+	return path, err
+}
+
+// func checkLocateExecutableFiles(target string) bool {
+// 	_, err := exec.LookPath(target)
+// 	if err != nil {
+// 		return true
+// 	}
+// 	return false
+
+// }
 
 //checking the command base of the first word
 //parsing the command and getting the value
 
 //TODO check for empty string
 // create a list for valid commands
-
 
 // $ type echo
 // echo is a shell builtin
@@ -121,6 +168,5 @@ func validateCommand(input string) (string , []string) {
 // type is a shell builtin
 // $ type invalid_command
 // invalid_command: not found
-
 
 //exec.LookPath("ls")
